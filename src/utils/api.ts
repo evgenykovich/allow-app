@@ -57,3 +57,19 @@ export const addEditChild = async (data: ChildType) => {
     console.log('error', error)
   }
 }
+
+export const handleDepositOrWithdraw = async (data: any) => {
+  try {
+    const response = await fetch(`${API_URL}/depositWithdraw`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    const result = await response.json()
+    return result
+  } catch (error) {
+    throw new Error((error as Error).message)
+  }
+}

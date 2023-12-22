@@ -14,7 +14,12 @@ import {
   historyText,
 } from '../../utils/consts'
 
-export const ChildDetails = ({ route }: any) => {
+export enum ActionType {
+  withdraw = 'withdraw',
+  deposit = 'deposit',
+}
+
+export const ChildDetails = ({ route, navigation }: any) => {
   const { child } = route.params
   const { fName, startBalance, currency, isWeekly, imageId, allowanceAmount } =
     child
@@ -22,6 +27,10 @@ export const ChildDetails = ({ route }: any) => {
   const [selectedOption, setSelectedOption] = useState(
     isWeekly ? 'weekly' : 'monthly'
   )
+
+  const handleDepositWithdraw = (type: string) => {
+    navigation.navigate('DepositWithdraw', { type, child })
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -50,10 +59,16 @@ export const ChildDetails = ({ route }: any) => {
             </View>
           </View>
           <View style={styles.actionsContainer}>
-            <TouchableOpacity style={[styles.actionBtn, styles.withdrawBtn]}>
+            <TouchableOpacity
+              style={[styles.actionBtn, styles.withdrawBtn]}
+              onPress={() => handleDepositWithdraw(ActionType.withdraw)}
+            >
               <Text>{withdrawText}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionBtn, styles.depositBtn]}>
+            <TouchableOpacity
+              style={[styles.actionBtn, styles.depositBtn]}
+              onPress={() => handleDepositWithdraw(ActionType.deposit)}
+            >
               <Text>{depositText}</Text>
             </TouchableOpacity>
           </View>
@@ -130,7 +145,6 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
-
     padding: calcSize(10),
   },
   selectedRadioBtn: {
@@ -229,7 +243,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    marginRight: calcSize(8),
     backgroundColor: '#f6f6f6',
     shadowColor: '#171717',
     shadowOffset: { width: -2, height: 4 },

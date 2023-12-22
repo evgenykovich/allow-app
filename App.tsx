@@ -10,8 +10,10 @@ import {
   childDetailsText,
   myChildrenText,
   signUpText,
+  withdrawOrDepositText,
 } from './src/utils/consts'
 import { AppProvider } from './src/contexts/AppContext'
+import { DepositWithdraw } from './src/components/DepositWithdraw'
 
 export default function App() {
   const Stack = createStackNavigator()
@@ -39,6 +41,20 @@ export default function App() {
             component={Home}
             options={{
               title: myChildrenText,
+              headerStyle: {
+                backgroundColor: '#0ba7b8',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+          />
+          <Stack.Screen
+            name="DepositWithdraw"
+            component={DepositWithdraw}
+            options={{
+              title: withdrawOrDepositText,
               headerStyle: {
                 backgroundColor: '#0ba7b8',
               },
