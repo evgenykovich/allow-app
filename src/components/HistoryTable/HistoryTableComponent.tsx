@@ -10,6 +10,7 @@ import {
 import { HistoryDetails } from '../../utils/types'
 import { getHistoryDetails } from '../../utils/api'
 import { calcSize, currencyMapper } from '../../utils/utils'
+import { ActionType } from '../ChildDetails'
 
 interface HistoryTableComponentProps {
   id: string
@@ -49,25 +50,24 @@ export const HistoryTableComponent = ({
     })
   }
 
-  const getDetails = () => {
-    setLoading(true)
-    getHistoryDetails(id).then((res: any) => {
-      setDetails(res)
-      setLoading(false)
-    })
-  }
-
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.itemContainer}
         onPress={() => {
           setShowDetails(!showDetails)
-          getDetails()
+          // getDetails()
         }}
       >
         <View style={styles.item}>
-          <Text style={styles.itemText}>
+          <Text
+            style={[
+              styles.itemText,
+              type === ActionType.deposit && styles.depositColor,
+              type === ActionType.withdraw && styles.withdrawColor,
+              type === ActionType.allowens && styles.allowensColor,
+            ]}
+          >
             {currencyMapper(currency || '')} {amount}
           </Text>
         </View>
@@ -77,10 +77,28 @@ export const HistoryTableComponent = ({
             { marginRight: calcSize(5), marginLeft: calcSize(5) },
           ]}
         >
-          <Text style={styles.itemText}>{description}</Text>
+          <Text
+            style={[
+              styles.itemText,
+              type === ActionType.deposit && styles.depositColor,
+              type === ActionType.withdraw && styles.withdrawColor,
+              type === ActionType.allowens && styles.allowensColor,
+            ]}
+          >
+            {description}
+          </Text>
         </View>
         <View style={styles.item}>
-          <Text style={styles.itemText}>{date}</Text>
+          <Text
+            style={[
+              styles.itemText,
+              type === ActionType.deposit && styles.depositColor,
+              type === ActionType.withdraw && styles.withdrawColor,
+              type === ActionType.allowens && styles.allowensColor,
+            ]}
+          >
+            {new Date(date).toLocaleString()}
+          </Text>
         </View>
       </TouchableOpacity>
       {showDetails && (
@@ -123,6 +141,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingRight: calcSize(8),
     paddingLeft: calcSize(8),
+  },
+  depositColor: {
+    color: '#09ab29',
+  },
+  withdrawColor: {
+    color: '#d10909',
+  },
+  allowensColor: {
+    color: '#0950d1',
   },
   item: {
     display: 'flex',

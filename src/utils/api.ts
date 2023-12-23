@@ -17,10 +17,19 @@ type ChildType = {
   parentId: number
 }
 
-export const getHistory = async (id?: string) => {
-  const response = await fetch(`${API_URL}/history/${id}`)
-  const data = await response.json()
-  return data
+export const getHistory = async (childId?: string) => {
+  const response = await fetch(
+    `${API_URL}/getChildHistory?childId=${childId}`,
+    {
+      method: 'GET',
+      headers: {
+        accept: 'text/plain',
+      },
+    }
+  )
+  const data = await response.text()
+  const res = JSON.parse(data)
+  return res
 }
 
 export const getHistoryDetails = async (id: string) => {
@@ -41,6 +50,18 @@ export const signUpLogin = async (data: SignUpType) => {
   return result
 }
 
+export const getChildren = async (parentId: string) => {
+  const response = await fetch(`${API_URL}/getChildren?parentId=${parentId}`, {
+    method: 'GET',
+    headers: {
+      accept: 'text/plain',
+    },
+  })
+  const data = await response.text()
+  const res = JSON.parse(data)
+  return res
+}
+
 export const addEditChild = async (data: ChildType) => {
   try {
     const response = await fetch(`${API_URL}/addEditChild`, {
@@ -53,7 +74,6 @@ export const addEditChild = async (data: ChildType) => {
     const result = await response.json()
     return result
   } catch (error) {
-    debugger
     console.log('error', error)
   }
 }
@@ -72,4 +92,16 @@ export const handleDepositOrWithdraw = async (data: any) => {
   } catch (error) {
     throw new Error((error as Error).message)
   }
+}
+
+export const getBalance = async (childId: string) => {
+  const response = await fetch(`${API_URL}/getBalance?childId=${childId}`, {
+    method: 'GET',
+    headers: {
+      accept: 'text/plain',
+    },
+  })
+  const data = await response.text()
+  const res = JSON.parse(data)
+  return res
 }

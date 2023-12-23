@@ -35,7 +35,7 @@ export const AddChild = ({ navigation }: any) => {
       isWeekly: true,
       startBalance: Number(allowensBalance),
       imageId: getRandomImage(),
-      parentId: Number(personalData.phone),
+      parentId: personalData.parentId,
     }
 
     try {

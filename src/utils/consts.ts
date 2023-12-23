@@ -29,3 +29,6 @@ export const reasonDescriptionText = 'הזינו את הסיבה להפקדה / 
 export const howMuchToWithdrawText = 'כמה תרצו למשוך?'
 export const howMuchToDepositText = 'כמה תרצו להפקיד?'
 export const detailsText = 'פירוט'
+
+export const amountSuccessfullyDepositedText = 'שקלים הופקדו בהצלחה'
+export const amountSuccessfullyWithdrawnText = 'שקלים נמשכו בהצלחה'

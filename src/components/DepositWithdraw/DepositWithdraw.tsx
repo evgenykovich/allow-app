@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TextInput, I18nManager } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ActionType } from '../ChildDetails'
@@ -11,38 +11,59 @@ import {
   howMuchToWithdrawText,
   howMuchToDepositText,
   detailsText,
+  amountSuccessfullyDepositedText,
+  amountSuccessfullyWithdrawnText,
 } from '../../utils/consts'
 import { calcSize, currencyMapper, toast } from '../../utils/utils'
-import { handleDepositOrWithdraw } from '../../utils/api'
+import { getBalance, handleDepositOrWithdraw } from '../../utils/api'
+import { useAppContext } from '../../contexts/AppContext'
 
 enum ActionTypeTranslation {
   withdraw = withdrawText,
   deposit = depositText,
 }
 
-export const DepositWithdraw = ({ route }: any) => {
+export const DepositWithdraw = ({ navigation, route }: any) => {
   const { type, child } = route.params
-  const { startBalance, currency } = child
+  const { currency } = child
+  const [currentBalance, setBalance] = useState()
   const [formData, setFormData] = useState({
     description: '',
     childId: child.id,
     sum: '',
   })
 
+  const { setSharedData } = useAppContext()
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      try {
+        const response = await getBalance(child.id)
+        setBalance(response)
+      } catch (e) {
+        console.log('error', e)
+      }
+    }
+    fetchBalance()
+  }, [])
+
   const handleAction = async () => {
-    console.log('handleAction')
     if (!formData.sum) {
       return
     }
     try {
       const data = {
         ...formData,
-        sum: Number(formData.sum),
+        sum:
+          type === ActionType.deposit
+            ? Number(formData.sum)
+            : -Number(formData.sum),
       }
 
       const response = await handleDepositOrWithdraw(data)
+      console.log('response', response)
 
-      if (response.status !== 200) {
+      if (response.error.length) {
         toast({
           type: 'error',
           text1: 'Error',
@@ -50,7 +71,30 @@ export const DepositWithdraw = ({ route }: any) => {
         })
         return
       }
-      toast({ type: 'success', text1: 'Success' })
+      setSharedData((prev: any) => {
+        const newSharedData = prev.map((item: any) => {
+          if (item.id === child.id) {
+            return {
+              ...item,
+              balance: response.balance,
+            }
+          }
+          return item
+        })
+        return newSharedData
+      })
+
+      const textFormatted =
+        type === ActionType.deposit
+          ? amountSuccessfullyDepositedText
+          : amountSuccessfullyWithdrawnText
+
+      toast({
+        type: 'success',
+        text1: 'Success',
+        text2: `${formData.sum} ${textFormatted}`,
+      })
+      navigation.navigate('Home')
     } catch (e) {
       toast({ type: 'error', text1: 'Error' })
     }
@@ -77,7 +121,7 @@ export const DepositWithdraw = ({ route }: any) => {
               <Text style={styles.currencyIcon}>
                 {currencyMapper(currency || '')}
               </Text>
-              <Text style={styles.currencyTitle}>{startBalance}</Text>
+              <Text style={styles.currencyTitle}>{currentBalance}</Text>
             </View>
             <View>
               <Text style={styles.currencyTitle}>{currencyTitle}</Text>

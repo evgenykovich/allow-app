@@ -17,13 +17,14 @@ import {
 export enum ActionType {
   withdraw = 'withdraw',
   deposit = 'deposit',
+  allowens = 'allowance',
 }
 
 export const ChildDetails = ({ route, navigation }: any) => {
   const { child } = route.params
-  const { fName, startBalance, currency, isWeekly, imageId, allowanceAmount } =
+  const { fName, id, currency, isWeekly, imageId, allowanceAmount, balance } =
     child
-  const [text, onAllowensText] = useState(startBalance)
+  const [text, onAllowensText] = useState(balance)
   const [selectedOption, setSelectedOption] = useState(
     isWeekly ? 'weekly' : 'monthly'
   )
@@ -52,7 +53,7 @@ export const ChildDetails = ({ route, navigation }: any) => {
               <Text style={styles.currencyIcon}>
                 {currencyMapper(currency || '')}
               </Text>
-              <Text style={styles.currencyTitle}>{startBalance}</Text>
+              <Text style={styles.currencyTitle}>{balance}</Text>
             </View>
             <View>
               <Text style={styles.currencyTitle}>{currencyTitle}</Text>
@@ -128,7 +129,7 @@ export const ChildDetails = ({ route, navigation }: any) => {
             </Text>
           </View>
           <View>
-            <HistoryTableContainer />
+            <HistoryTableContainer childId={id} />
           </View>
         </View>
       </View>

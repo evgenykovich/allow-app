@@ -11,16 +11,22 @@ import { ChildComponent } from '../../ChildComponent'
 import { calcSize } from '../../../utils/utils'
 import { addChildText } from '../../../utils/consts'
 import { useAppContext } from '../../../contexts/AppContext'
-import { mockChildrenArray } from '../../../utils/mocks'
+import { getChildren } from '../../../utils/api'
 
 export const Home = ({ navigation }: any) => {
-  const { sharedData, setSharedData } = useAppContext()
+  const { sharedData, setSharedData, personalData } = useAppContext()
 
   useEffect(() => {
-    if (sharedData.length === 0) {
-      setSharedData(mockChildrenArray)
+    const fetchChildren = async () => {
+      try {
+        const { children } = await getChildren(personalData.parentId)
+        setSharedData(children)
+      } catch (e) {
+        console.log('error', e)
+      }
     }
-  }, [sharedData])
+    fetchChildren()
+  }, [])
 
   const handleAddUser = () => {
     navigation.navigate('AddChild')

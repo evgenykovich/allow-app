@@ -32,8 +32,8 @@ export const Signup = ({ navigation }: any) => {
     }
 
     try {
-      await signUpLogin({ phone: fullPhoneNumber })
-      personalDataData({ phone: fullPhoneNumber })
+      const res = await signUpLogin({ phone: fullPhoneNumber })
+      personalDataData({ phone: fullPhoneNumber, parentId: res.parentId })
       navigation.navigate('Home')
     } catch (e) {
       toast({ type: 'error', text1: 'Error' })

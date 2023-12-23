@@ -9,6 +9,7 @@ interface ChildComponentProps {
     id: number
     fName: string
     startBalance: string
+    balance: string
     currency?: string
     imageId?: string
   }
@@ -16,7 +17,7 @@ interface ChildComponentProps {
 }
 
 export const ChildComponent = ({ child, navigation }: ChildComponentProps) => {
-  const { fName, startBalance, currency, imageId } = child
+  const { fName, balance, currency, imageId } = child
 
   return (
     <View style={styles.container}>
@@ -55,7 +56,7 @@ export const ChildComponent = ({ child, navigation }: ChildComponentProps) => {
             <Text style={styles.currencyIcon}>
               {currencyMapper(currency || '')}
             </Text>
-            <Text style={styles.currencyTitle}>{startBalance}</Text>
+            <Text style={styles.currencyTitle}>{balance}</Text>
           </View>
           <View>
             <Text style={styles.currencyTitle}>{currencyTitle}</Text>
