@@ -7,11 +7,11 @@ import {
   FlatList,
 } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
-import { ChildComponent } from '../../ChildComponent'
-import { calcSize } from '../../../utils/utils'
-import { addChildText } from '../../../utils/consts'
-import { useAppContext } from '../../../contexts/AppContext'
-import { getChildren } from '../../../utils/api'
+import { ChildComponent } from '../../components'
+import { calcSize } from '../../utils/utils'
+import { addChildText } from '../../utils/consts'
+import { useAppContext } from '../../contexts/AppContext'
+import { getChildren } from '../../utils/api'
 
 export const Home = ({ navigation }: any) => {
   const { sharedData, setSharedData, personalData } = useAppContext()
@@ -32,12 +32,18 @@ export const Home = ({ navigation }: any) => {
     navigation.navigate('AddChild')
   }
 
+  const handleChildClick = (child: any) => {
+    navigation.navigate('ChildDetails', { child })
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
         data={sharedData}
         renderItem={({ item }) => (
-          <ChildComponent navigation={navigation} child={item} />
+          <TouchableOpacity onPress={() => handleChildClick(item)}>
+            <ChildComponent navigation={navigation} child={item} />
+          </TouchableOpacity>
         )}
       />
       <View style={styles.bottomControls}>

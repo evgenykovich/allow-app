@@ -158,7 +158,7 @@ export const DepositWithdraw = ({ navigation, route }: any) => {
             style={[styles.input, I18nManager.isRTL && { textAlign: 'right' }]}
             placeholder={reasonDescriptionText}
             multiline={true}
-            numberOfLines={5}
+            numberOfLines={4}
           />
         </View>
       </View>
@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
     paddingBottom: calcSize(10),
   },
   input: {
+    textAlign: 'right',
     width: '100%',
     borderRadius: calcSize(5),
     padding: calcSize(10),

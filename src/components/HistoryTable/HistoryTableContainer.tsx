@@ -6,55 +6,8 @@ import { getHistory } from '../../utils/api'
 import { calcSize } from '../../utils/utils'
 import { ScrollView } from 'react-native-gesture-handler'
 
-interface HistoryTableContainerProps {
-  navigation: any
-}
-
-const mockHistory = [
-  {
-    id: '1',
-    type: 'הפקדה',
-    date: '12/12/2020',
-    description: 'הפקדה - דמי כיס',
-    amount: '100',
-    currency: 'ILS',
-  },
-  {
-    id: '2',
-    type: 'משיכה',
-    date: '12/12/2020',
-    description: 'משיכה - דמי כיס',
-    amount: '100',
-    currency: 'ILS',
-  },
-  {
-    id: '3',
-    type: 'משיכה',
-    date: '12/12/2020',
-    description: 'משיכה - דמי כיס',
-    amount: '100',
-    currency: 'ILS',
-  },
-  {
-    id: '4',
-    type: 'משיכה',
-    date: '12/12/2020',
-    description: 'משיכה - דמי כיס',
-    amount: '100',
-    currency: 'ILS',
-  },
-  {
-    id: '5',
-    type: 'משיכה',
-    date: '12/12/2020',
-    description: 'משיכה - דמי כיס',
-    amount: '100',
-    currency: 'ILS',
-  },
-]
-
 export const HistoryTableContainer = ({ childId }: any) => {
-  const [history, setHistory] = useState<History[]>(mockHistory)
+  const [history, setHistory] = useState<History[]>()
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -72,6 +25,10 @@ export const HistoryTableContainer = ({ childId }: any) => {
   }, [])
 
   const renderHistory = () => {
+    if (!history) {
+      return
+    }
+
     return history.map((historyItem: History) => {
       const { id, type, date, amount, currency, description } = historyItem
       return (

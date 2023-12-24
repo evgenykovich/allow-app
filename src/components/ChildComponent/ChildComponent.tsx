@@ -3,6 +3,8 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import { calcSize, currencyMapper } from '../../utils/utils'
 import { currencyTitle } from '../../utils/consts'
+import { deleteChild } from '../../utils/api'
+import { useAppContext } from '../../contexts/AppContext'
 
 interface ChildComponentProps {
   child: {
@@ -18,6 +20,21 @@ interface ChildComponentProps {
 
 export const ChildComponent = ({ child, navigation }: ChildComponentProps) => {
   const { fName, balance, currency, imageId } = child
+  const { sharedData, setSharedData } = useAppContext()
+
+  const handleEditClick = () => {
+    navigation.navigate('AddChild', { child })
+  }
+
+  const handleDeleteClick = async () => {
+    try {
+      const response = await deleteChild(String(child.id))
+      const newChild = sharedData.filter((item: any) => item.id !== child.id)
+      setSharedData(newChild)
+    } catch (e) {
+      console.log('error', e)
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -26,11 +43,14 @@ export const ChildComponent = ({ child, navigation }: ChildComponentProps) => {
           <View style={{ display: 'flex', flexDirection: 'row' }}>
             <TouchableOpacity
               style={[styles.actionBtn, styles.editBtn]}
-              onPress={() => navigation.navigate('ChildDetails', { child })}
+              onPress={handleEditClick}
             >
               <IconFeather name="edit" size={calcSize(16)} color="#000" />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionBtn, styles.deleteBtn]}>
+            <TouchableOpacity
+              style={[styles.actionBtn, styles.deleteBtn]}
+              onPress={handleDeleteClick}
+            >
               <IconMaterialIcons
                 name="delete-outline"
                 size={calcSize(20)}

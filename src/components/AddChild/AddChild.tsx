@@ -15,12 +15,20 @@ import {
 } from '../../utils/consts'
 import { useAppContext } from '../../contexts/AppContext'
 
-export const AddChild = ({ navigation }: any) => {
-  const [name, setName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [allowensBalance, setAllowensBalance] = useState('')
-  const [allowens, setAllowens] = useState('')
-  const [selectedDate, setBirthday] = useState<Date>()
+export const AddChild = ({ navigation, route }: any) => {
+  const child = route.params ? route.params.child : undefined
+
+  const [name, setName] = useState(child ? child.fName : '')
+  const [lastName, setLastName] = useState(child ? child.lName : '')
+  const [allowensBalance, setAllowensBalance] = useState(
+    child ? String(child.balance) : ''
+  )
+  const [allowens, setAllowens] = useState(
+    child ? String(child.allowanceAmount) : ''
+  )
+  const [selectedDate, setBirthday] = useState<Date>(
+    child ? new Date(child.bDay) : new Date()
+  )
   const [showDatePicker, setShow] = useState(false)
   const currentDate = selectedDate
 
@@ -36,13 +44,24 @@ export const AddChild = ({ navigation }: any) => {
       startBalance: Number(allowensBalance),
       imageId: getRandomImage(),
       parentId: personalData.parentId,
+      ...(child && child.id
+        ? { id: child.id, balance: Number(allowensBalance) }
+        : {}),
     }
 
     try {
       const response = await addEditChild(newChild)
       console.log('response', response)
 
-      setSharedData([...sharedData, newChild])
+      if (child && child.id) {
+        setSharedData(
+          sharedData.map((item: { id: number }) =>
+            item.id === newChild.id ? newChild : item
+          )
+        )
+      } else {
+        setSharedData([...sharedData, newChild])
+      }
       navigation.navigate('Home')
     } catch (e) {
       console.log('error', e)
@@ -129,6 +148,7 @@ const styles = StyleSheet.create({
     marginBottom: calcSize(20),
   },
   input: {
+    textAlign: 'right',
     height: calcSize(45),
     borderRadius: calcSize(5),
     padding: calcSize(10),

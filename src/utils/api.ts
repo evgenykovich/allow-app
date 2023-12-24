@@ -12,9 +12,10 @@ type ChildType = {
   bDay?: Date
   allowanceAmount: number
   isWeekly: boolean
-  startBalance: number
+  startBalance?: number
   imageId: string
   parentId: number
+  balance?: number | string
 }
 
 export const getHistory = async (childId?: string) => {
@@ -96,6 +97,18 @@ export const handleDepositOrWithdraw = async (data: any) => {
 
 export const getBalance = async (childId: string) => {
   const response = await fetch(`${API_URL}/getBalance?childId=${childId}`, {
+    method: 'GET',
+    headers: {
+      accept: 'text/plain',
+    },
+  })
+  const data = await response.text()
+  const res = JSON.parse(data)
+  return res
+}
+
+export const deleteChild = async (childId: string) => {
+  const response = await fetch(`${API_URL}/deleteChild?childId=${childId}`, {
     method: 'GET',
     headers: {
       accept: 'text/plain',

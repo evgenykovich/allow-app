@@ -1,10 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Toast from 'react-native-toast-message'
-import { Home } from './src/components/containers/Home/Home'
-import { ChildDetails } from './src/components/ChildDetails'
-import { Signup } from './src/components/SignUp/SignUp'
-import { AddChild } from './src/components/AddChild/AddChild'
+import { Home } from './src/containers'
+import {
+  DepositWithdraw,
+  ChildDetails,
+  Signup,
+  AddChild,
+} from './src/components'
 import {
   addChildText,
   childDetailsText,
@@ -13,7 +16,6 @@ import {
   withdrawOrDepositText,
 } from './src/utils/consts'
 import { AppProvider } from './src/contexts/AppContext'
-import { DepositWithdraw } from './src/components/DepositWithdraw'
 
 export default function App() {
   const Stack = createStackNavigator()

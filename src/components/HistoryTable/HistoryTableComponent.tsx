@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import { HistoryDetails } from '../../utils/types'
-import { getHistoryDetails } from '../../utils/api'
 import { calcSize, currencyMapper } from '../../utils/utils'
 import { ActionType } from '../ChildDetails'
 
