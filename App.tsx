@@ -1,3 +1,4 @@
+import { I18nManager } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Toast from 'react-native-toast-message'
@@ -19,6 +20,9 @@ import { AppProvider } from './src/contexts/AppContext'
 
 export default function App() {
   const Stack = createStackNavigator()
+  I18nManager.allowRTL(false)
+  I18nManager.forceRTL(false)
+  I18nManager.swapLeftAndRightInRTL(false)
 
   return (
     <AppProvider>
