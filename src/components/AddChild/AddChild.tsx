@@ -17,11 +17,12 @@ import { useAppContext } from '../../contexts/AppContext'
 
 export const AddChild = ({ navigation, route }: any) => {
   const child = route.params ? route.params.child : undefined
-
+  const updatedBalance =
+    child && child?.balance ? child?.balance : child?.startBalance
   const [name, setName] = useState(child ? child.fName : '')
   const [lastName, setLastName] = useState(child ? child.lName : '')
   const [allowensBalance, setAllowensBalance] = useState(
-    child ? String(child.balance) : ''
+    child ? String(updatedBalance) : ''
   )
   const [allowens, setAllowens] = useState(
     child ? String(child.allowanceAmount) : ''
@@ -51,16 +52,17 @@ export const AddChild = ({ navigation, route }: any) => {
 
     try {
       const response = await addEditChild(newChild)
-      console.log('response', response)
+
+      const id = child && child.id ? child.id : response.childId
 
       if (child && child.id) {
         setSharedData(
           sharedData.map((item: { id: number }) =>
-            item.id === newChild.id ? newChild : item
+            item.id === id ? { ...newChild, id } : item
           )
         )
       } else {
-        setSharedData([...sharedData, newChild])
+        setSharedData([...sharedData, { ...newChild, id }])
       }
       navigation.navigate('Home')
     } catch (e) {

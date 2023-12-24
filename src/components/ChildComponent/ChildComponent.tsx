@@ -19,16 +19,17 @@ interface ChildComponentProps {
 }
 
 export const ChildComponent = ({ child, navigation }: ChildComponentProps) => {
-  const { fName, balance, currency, imageId } = child
+  const { fName, balance, currency, imageId, startBalance } = child
   const { sharedData, setSharedData } = useAppContext()
-
+  const updatedBalance = balance ? balance : startBalance
+  console.log(updatedBalance)
   const handleEditClick = () => {
     navigation.navigate('AddChild', { child })
   }
 
   const handleDeleteClick = async () => {
     try {
-      const response = await deleteChild(String(child.id))
+      await deleteChild(String(child.id))
       const newChild = sharedData.filter((item: any) => item.id !== child.id)
       setSharedData(newChild)
     } catch (e) {
@@ -76,7 +77,7 @@ export const ChildComponent = ({ child, navigation }: ChildComponentProps) => {
             <Text style={styles.currencyIcon}>
               {currencyMapper(currency || '')}
             </Text>
-            <Text style={styles.currencyTitle}>{balance}</Text>
+            <Text style={styles.currencyTitle}>{updatedBalance}</Text>
           </View>
           <View>
             <Text style={styles.currencyTitle}>{currencyTitle}</Text>

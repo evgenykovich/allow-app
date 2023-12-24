@@ -108,13 +108,16 @@ export const getBalance = async (childId: string) => {
 }
 
 export const deleteChild = async (childId: string) => {
-  const response = await fetch(`${API_URL}/deleteChild?childId=${childId}`, {
-    method: 'GET',
-    headers: {
-      accept: 'text/plain',
-    },
-  })
-  const data = await response.text()
-  const res = JSON.parse(data)
-  return res
+  try {
+    const response = await fetch(`${API_URL}/deleteChild?childId=${childId}`, {
+      method: 'GET',
+      headers: {
+        accept: 'text/plain',
+      },
+    })
+
+    return response
+  } catch (error) {
+    throw new Error((error as Error).message)
+  }
 }
