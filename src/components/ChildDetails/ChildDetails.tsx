@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { RadioButton } from '../RadioButton'
 import { HistoryTableContainer } from '../HistoryTable'
 import { calcSize, currencyMapper } from '../../utils/utils'
 import {
@@ -8,17 +9,11 @@ import {
   currencyTitle,
   depositText,
   depositDetailsText,
-  monthleyText,
-  weeklyText,
   sumText,
   historyText,
+  selectOptions,
 } from '../../utils/consts'
-
-export enum ActionType {
-  withdraw = 'withdraw',
-  deposit = 'deposit',
-  allowens = 'allowance',
-}
+import { ActionType } from '../../utils/types'
 
 export const ChildDetails = ({ route, navigation }: any) => {
   const { child } = route.params
@@ -81,28 +76,11 @@ export const ChildDetails = ({ route, navigation }: any) => {
                 {depositDetailsText}
               </Text>
             </View>
-            <View style={styles.allowensSelectContainer}>
-              <TouchableOpacity
-                style={
-                  selectedOption === 'monthly'
-                    ? styles.selectedRadioBtn
-                    : styles.radioBtn
-                }
-                onPress={() => setSelectedOption('monthly')}
-              >
-                <Text style={styles.btnText}>{monthleyText}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={
-                  selectedOption === 'weekly'
-                    ? styles.selectedRadioBtn
-                    : styles.radioBtn
-                }
-                onPress={() => setSelectedOption('weekly')}
-              >
-                <Text style={styles.btnText}>{weeklyText}</Text>
-              </TouchableOpacity>
-            </View>
+            <RadioButton
+              disabled={true}
+              options={selectOptions}
+              selectedOption={selectedOption}
+            />
             <View style={{ marginTop: calcSize(10) }}>
               <TouchableOpacity
                 style={[

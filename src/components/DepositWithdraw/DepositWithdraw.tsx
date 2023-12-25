@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TextInput, I18nManager } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { ActionType } from '../ChildDetails'
 import {
   currencyTitle,
   depositText,
@@ -17,6 +16,7 @@ import {
 import { calcSize, currencyMapper, toast } from '../../utils/utils'
 import { getBalance, handleDepositOrWithdraw } from '../../utils/api'
 import { useAppContext } from '../../contexts/AppContext'
+import { ActionType } from '../../utils/types'
 
 enum ActionTypeTranslation {
   withdraw = withdrawText,

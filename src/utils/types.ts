@@ -22,3 +22,9 @@ export enum MonthleyWeekly {
   monthly = monthleyText,
   weekly = weeklyText,
 }
+
+export enum ActionType {
+  withdraw = 'withdraw',
+  deposit = 'deposit',
+  allowens = 'allowance',
+}

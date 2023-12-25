@@ -32,3 +32,5 @@ export const detailsText = 'פירוט'
 
 export const amountSuccessfullyDepositedText = 'שקלים הופקדו בהצלחה'
 export const amountSuccessfullyWithdrawnText = 'שקלים נמשכו בהצלחה'
+
+export const selectOptions = ['weekly', 'monthly']

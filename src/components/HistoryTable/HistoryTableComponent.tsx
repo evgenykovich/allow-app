@@ -7,9 +7,8 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native'
-import { HistoryDetails } from '../../utils/types'
+import { ActionType, HistoryDetails } from '../../utils/types'
 import { calcSize, currencyMapper } from '../../utils/utils'
-import { ActionType } from '../ChildDetails'
 
 interface HistoryTableComponentProps {
   id: string

@@ -2,13 +2,21 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { calcSize } from '../../utils/utils'
 import { MonthleyWeekly } from '../../utils/types'
 
+type RadioButtonProps = {
+  options: string[]
+  disabled?: boolean
+  selectedOption?: string
+  setSelectedOption?: (option: string) => void
+}
+
 export const RadioButton = ({
   options,
   selectedOption,
+  disabled = false,
   setSelectedOption,
-}: any) => {
+}: RadioButtonProps) => {
   return (
-    <View style={styles.allowensSelectContainer}>
+    <View style={[styles.allowensSelectContainer, disabled && styles.disabled]}>
       {options.map((option: string) => (
         <TouchableOpacity
           key={option}
@@ -17,7 +25,7 @@ export const RadioButton = ({
               ? styles.selectedRadioBtn
               : styles.radioBtn
           }
-          onPress={() => setSelectedOption(option)}
+          onPress={() => setSelectedOption && setSelectedOption(option)}
         >
           <Text style={styles.btnText}>
             {MonthleyWeekly[option as keyof typeof MonthleyWeekly]}
@@ -33,6 +41,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  disabled: {
+    pointerEvents: 'none',
   },
   allowensSelectContainer: {
     display: 'flex',
