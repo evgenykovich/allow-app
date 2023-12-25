@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
+import * as Haptics from 'expo-haptics'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/Octicons'
 import { calcSize } from '../../utils/utils'
@@ -106,7 +107,10 @@ export const PhoneNumberKeyboard = ({ handleClick }: any) => {
       <TouchableOpacity
         key={item.value}
         style={[styles.keyboardItem, item.style && { ...item.style }]}
-        onPress={() => handleClick(item.value)}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+          handleClick(item.value)
+        }}
       >
         <Text style={styles.keyboardItemTitle}>{item.title}</Text>
       </TouchableOpacity>
