@@ -33,6 +33,7 @@ export default function App() {
             component={Signup}
             options={{
               title: signUpText,
+              headerTitleAlign: 'center',
               headerStyle: {
                 backgroundColor: '#0ba7b8',
               },
@@ -47,6 +48,7 @@ export default function App() {
             component={Home}
             options={{
               title: myChildrenText,
+              headerTitleAlign: 'center',
               headerStyle: {
                 backgroundColor: '#0ba7b8',
               },
@@ -61,6 +63,7 @@ export default function App() {
             component={DepositWithdraw}
             options={{
               title: withdrawOrDepositText,
+              headerTitleAlign: 'center',
               headerStyle: {
                 backgroundColor: '#0ba7b8',
               },
@@ -75,6 +78,7 @@ export default function App() {
             component={ChildDetails}
             options={{
               title: childDetailsText,
+              headerTitleAlign: 'center',
               headerStyle: {
                 backgroundColor: '#0ba7b8',
               },
@@ -89,6 +93,7 @@ export default function App() {
             component={AddChild}
             options={{
               title: addChildText,
+              headerTitleAlign: 'center',
               headerStyle: {
                 backgroundColor: '#0ba7b8',
               },
