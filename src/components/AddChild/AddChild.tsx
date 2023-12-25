@@ -14,8 +14,8 @@ import {
   lastNameText,
   birthDayDateText,
   allowensText,
+  selectOptions,
 } from '../../utils/consts'
-import { MonthleyWeekly } from '../../utils/types'
 
 export const AddChild = ({ navigation, route }: any) => {
   const child = route.params ? route.params.child : undefined
@@ -40,8 +40,6 @@ export const AddChild = ({ navigation, route }: any) => {
 
   const { sharedData, setSharedData, personalData } = useAppContext()
 
-  const selectOptions = ['weekly', 'monthly']
-
   const submitForm = async () => {
     const newChild = {
       fName: name,
@@ -50,7 +48,7 @@ export const AddChild = ({ navigation, route }: any) => {
       allowanceAmount: Number(allowens),
       isWeekly: selectedOption === 'weekly' ? true : false,
       startBalance: Number(allowensBalance),
-      imageId: getRandomImage(),
+      imageId: child && child.imageId ? child.imageId : getRandomImage(),
       parentId: personalData.parentId,
       ...(child && child.id
         ? { id: child.id, balance: Number(allowensBalance) }

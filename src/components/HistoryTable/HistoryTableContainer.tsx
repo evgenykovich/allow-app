@@ -5,6 +5,7 @@ import { History } from '../../utils/types'
 import { getHistory } from '../../utils/api'
 import { calcSize } from '../../utils/utils'
 import { ScrollView } from 'react-native-gesture-handler'
+import { historyText } from '../../utils/consts'
 
 export const HistoryTableContainer = ({ childId }: any) => {
   const [history, setHistory] = useState<History[]>()
@@ -25,11 +26,7 @@ export const HistoryTableContainer = ({ childId }: any) => {
   }, [])
 
   const renderHistory = () => {
-    if (!history) {
-      return
-    }
-
-    return history.map((historyItem: History) => {
+    return history?.map((historyItem: History) => {
       const { id, type, date, amount, currency, description } = historyItem
       return (
         <HistoryTableComponent
@@ -45,8 +42,17 @@ export const HistoryTableContainer = ({ childId }: any) => {
     })
   }
 
+  if (!history?.length) {
+    return
+  }
+
   return (
     <View style={styles.container}>
+      <View style={styles.innerContainer}>
+        <Text style={{ fontSize: calcSize(20), fontWeight: 'bold' }}>
+          {historyText}
+        </Text>
+      </View>
       <View style={styles.headerContainer}>
         <View style={styles.headerItem}>
           <Text style={styles.headerText}>סכום</Text>
@@ -75,6 +81,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     height: '100%',
     width: '100%',
+  },
+  innerContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: calcSize(10),
   },
   headerContainer: {
     display: 'flex',

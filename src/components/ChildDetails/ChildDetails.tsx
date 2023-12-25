@@ -10,15 +10,22 @@ import {
   depositText,
   depositDetailsText,
   sumText,
-  historyText,
   selectOptions,
 } from '../../utils/consts'
 import { ActionType } from '../../utils/types'
 
 export const ChildDetails = ({ route, navigation }: any) => {
   const { child } = route.params
-  const { fName, id, currency, isWeekly, imageId, allowanceAmount, balance } =
-    child
+  const {
+    fName,
+    id,
+    currency,
+    isWeekly,
+    imageId,
+    allowanceAmount,
+    balance,
+    startBalance,
+  } = child
   const [text, onAllowensText] = useState(balance)
   const [selectedOption, setSelectedOption] = useState(
     isWeekly ? 'weekly' : 'monthly'
@@ -27,6 +34,8 @@ export const ChildDetails = ({ route, navigation }: any) => {
   const handleDepositWithdraw = (type: string) => {
     navigation.navigate('DepositWithdraw', { type, child })
   }
+
+  const balanceUpdated = balance ? balance : startBalance
 
   return (
     <ScrollView style={styles.container}>
@@ -48,7 +57,7 @@ export const ChildDetails = ({ route, navigation }: any) => {
               <Text style={styles.currencyIcon}>
                 {currencyMapper(currency || '')}
               </Text>
-              <Text style={styles.currencyTitle}>{balance}</Text>
+              <Text style={styles.currencyTitle}>{balanceUpdated}</Text>
             </View>
             <View>
               <Text style={styles.currencyTitle}>{currencyTitle}</Text>
@@ -99,22 +108,9 @@ export const ChildDetails = ({ route, navigation }: any) => {
             </View>
           </View>
         </View>
-
         <View>
-          <View style={styles.innerContainer}>
-            <Text style={{ fontSize: calcSize(20), fontWeight: 'bold' }}>
-              {historyText}
-            </Text>
-          </View>
-          <View>
-            <HistoryTableContainer childId={id} />
-          </View>
+          <HistoryTableContainer childId={id} />
         </View>
-      </View>
-      <View style={styles.bottomControls}>
-        <TouchableOpacity style={styles.addChildBtn}>
-          <Text style={styles.addChildBtnTitle}>Save</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   )
