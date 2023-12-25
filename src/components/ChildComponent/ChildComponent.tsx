@@ -22,7 +22,7 @@ export const ChildComponent = ({ child, navigation }: ChildComponentProps) => {
   const { fName, balance, currency, imageId, startBalance } = child
   const { sharedData, setSharedData } = useAppContext()
   const updatedBalance = balance ? balance : startBalance
-  console.log(updatedBalance)
+
   const handleEditClick = () => {
     navigation.navigate('AddChild', { child })
   }

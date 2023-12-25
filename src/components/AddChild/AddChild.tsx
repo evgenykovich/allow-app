@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import { RadioButton } from '../RadioButton'
+import { useAppContext } from '../../contexts/AppContext'
 import { addEditChild } from '../../utils/api'
 import { calcSize, getRandomImage } from '../../utils/utils'
 import {
@@ -13,10 +15,13 @@ import {
   birthDayDateText,
   allowensText,
 } from '../../utils/consts'
-import { useAppContext } from '../../contexts/AppContext'
+import { MonthleyWeekly } from '../../utils/types'
 
 export const AddChild = ({ navigation, route }: any) => {
   const child = route.params ? route.params.child : undefined
+  const isWeeklyChild = child ? child.isWeekly : false
+  const isWeekly = isWeeklyChild ? 'weekly' : 'monthly'
+  const [selectedOption, setSelectedOption] = useState(isWeekly)
   const updatedBalance =
     child && child?.balance ? child?.balance : child?.startBalance
   const [name, setName] = useState(child ? child.fName : '')
@@ -35,13 +40,15 @@ export const AddChild = ({ navigation, route }: any) => {
 
   const { sharedData, setSharedData, personalData } = useAppContext()
 
+  const selectOptions = ['weekly', 'monthly']
+
   const submitForm = async () => {
     const newChild = {
       fName: name,
       lName: lastName,
       bDay: selectedDate,
       allowanceAmount: Number(allowens),
-      isWeekly: true,
+      isWeekly: selectedOption === 'weekly' ? true : false,
       startBalance: Number(allowensBalance),
       imageId: getRandomImage(),
       parentId: personalData.parentId,
@@ -118,6 +125,11 @@ export const AddChild = ({ navigation, route }: any) => {
             placeholder={allowensText}
             value={allowens}
             onChangeText={setAllowens}
+          />
+          <RadioButton
+            options={selectOptions}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
           />
         </View>
       </View>

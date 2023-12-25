@@ -1,3 +1,5 @@
+import { monthleyText, weeklyText } from './consts'
+
 export type History = {
   id: string
   type: string
@@ -14,4 +16,9 @@ export type HistoryDetails = {
   amount: string
   currency: string
   description: string
+}
+
+export enum MonthleyWeekly {
+  monthly = monthleyText,
+  weekly = weeklyText,
 }

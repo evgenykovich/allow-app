@@ -61,7 +61,6 @@ export const DepositWithdraw = ({ navigation, route }: any) => {
       }
 
       const response = await handleDepositOrWithdraw(data)
-      console.log('response', response)
 
       if (response.error.length) {
         toast({
